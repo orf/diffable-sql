@@ -38,6 +38,66 @@ Specifically:
 
 These allow schemas to be more easily diffed.
 
+## JSON output
+
+Passing `--output-format=json` will output a json structure for each table, containing information on the column
+types, SQL, nullability, indexes and constraints:
+
+```shell
+$ poetry run diffable-sql sqlite:///tools/db.sqlite3 --output-format=json | jq
+```
+
+Outputs:
+```json
+{
+  "name": "sometable",
+  "database": "tools/db.sqlite3",
+  "columns": {
+    "id": {
+      "type": "BIGINT",
+      "sql": "id BIGINT NOT NULL",
+      "nullable": false
+    },
+    "foo": {
+      "type": "VARCHAR",
+      "sql": "foo VARCHAR",
+      "nullable": true
+    }
+  },
+  "indexes": [
+    {
+      "name": "foobar",
+      "type": "Index",
+      "sql": "CREATE INDEX foobar ON sometable (foo)",
+      "columns": [
+        "foo"
+      ],
+      "expressions": []
+    }
+  ],
+  "constraints": [
+    {
+      "name": null,
+      "type": "PrimaryKeyConstraint",
+      "sql": "ALTER TABLE sometable ADD PRIMARY KEY (id)",
+      "columns": [
+        "id"
+      ],
+      "expression": null
+    },
+    {
+      "name": null,
+      "type": "UniqueConstraint",
+      "sql": "ALTER TABLE sometable ADD UNIQUE (foo)",
+      "columns": [
+        "foo"
+      ],
+      "expression": null
+    }
+  ]
+}
+```
+
 ## Args
 
 ```console
@@ -51,5 +111,7 @@ Options:
                                   Include deferrable constraint information
   --no-ignore-identity-columns TEXT
                                   Don't ignore identity column information
+  --output-format [sql|json]
   --help                          Show this message and exit.
+
 ```

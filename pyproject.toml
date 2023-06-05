@@ -10,9 +10,13 @@ packages = [{include = "diffable_sql"}]
 python = "^3.10"
 SQLAlchemy = "^2.0.15"
 click = "^8.1.3"
+psycopg2-binary = { version = "^2.9", optional = true }
 
 [tool.poetry.scripts]
 diffable-sql = "diffable_sql.cli:cli"
+
+[tool.poetry.extras]
+postgres = ["psycopg2-binary"]
 
 [tool.poetry.group.dev.dependencies]
 sqlalchemy = {extras = ["postgresql"], version = "^2.0.15"}

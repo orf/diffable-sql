@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "diffable-sql"
-version = "0.1.0"
+version = "0.1.1"
 description = "Output normalised diffable database schemas"
 authors = ["Tom Forbes <tom@tomforb.es>"]
 readme = "README.md"
